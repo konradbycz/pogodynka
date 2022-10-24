@@ -11,3 +11,13 @@ weather_in_city:
 weather:
   path: /weather/{country}/{city}
   controller: App\Controller\WeatherController:measurementAction
+
+app_location:
+  resource: 'routes/app_location.yaml'
+  prefix: 'location'
+  name_prefix: 'app_location_'
+
+app_measurement:
+  resource: 'routes/app_measurement.yaml'
+  prefix: 'measurement'
+  name_prefix: 'app_measurement_'

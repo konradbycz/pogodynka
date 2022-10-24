@@ -78,4 +78,11 @@ class Location
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->country . " " . $this->city;
+    }
+
+
 }

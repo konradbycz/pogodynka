@@ -1,0 +1,32 @@
+index:
+  path: /
+  controller: App\Controller\MeasurementController:index
+  methods: GET
+
+show:
+  path: /{id}
+  controller: App\Controller\MeasurementController:show
+  methods: GET
+  requirements:
+    id: \d+
+  defaults:
+    id: \d+
+
+new:
+  path: /new
+  controller: App\Controller\MeasurementController:new
+  methods: GET|POST
+
+edit:
+  path: /{id}/edit
+  controller: App\Controller\MeasurementController:edit
+  methods: GET|POST
+  defaults:
+    id: \d+
+
+delete:
+  path: /{id}
+  controller: App\Controller\MeasurementController:delete
+  methods: POST
+  requirements:
+    id: \d+

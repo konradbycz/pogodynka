@@ -1,0 +1,32 @@
+index:
+  path: /
+  controller: App\Controller\LocationController:index
+  methods: GET
+
+show:
+  path: /{id}
+  controller: App\Controller\LocationController:show
+  methods: GET
+  requirements:
+    id: \d+
+  defaults:
+    id: \d+
+
+new:
+  path: /new
+  controller: App\Controller\LocationController:new
+  methods: GET|POST
+
+edit:
+  path: /{id}/edit
+  controller: App\Controller\LocationController:edit
+  methods: GET|POST
+  defaults:
+    id: \d+
+
+delete:
+  path: /{id}
+  controller: App\Controller\LocationController:delete
+  methods: POST
+  requirements:
+    id: \d+ 
