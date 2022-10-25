@@ -13,6 +13,7 @@ class LocationController extends AbstractController
 {
     public function index(LocationRepository $locationRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_LOCATION_INDEX');
         return $this->render('location/index.html.twig', [
             'locations' => $locationRepository->findAll(),
         ]);
@@ -20,6 +21,7 @@ class LocationController extends AbstractController
 
     public function new(Request $request, LocationRepository $locationRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_LOCATION_CREATE');
         $location = new Location();
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);
@@ -38,6 +40,7 @@ class LocationController extends AbstractController
 
     public function show(Location $location): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_LOCATION_SHOW');
         return $this->render('location/show.html.twig', [
             'location' => $location,
         ]);
@@ -45,6 +48,7 @@ class LocationController extends AbstractController
 
     public function edit(Request $request, Location $location, LocationRepository $locationRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_LOCATION_EDIT');
         $form = $this->createForm(LocationType::class, $location);
         $form->handleRequest($request);
 
@@ -62,6 +66,7 @@ class LocationController extends AbstractController
 
     public function delete(Request $request, Location $location, LocationRepository $locationRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_LOCATION_DELETE');
         if ($this->isCsrfTokenValid('delete' . $location->getId(), $request->request->get('_token'))) {
             $locationRepository->remove($location, true);
         }

@@ -1,40 +1,64 @@
 security:
-    enable_authenticator_manager: true
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
-    providers:
-        users_in_memory: { memory: null }
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            lazy: true
-            provider: users_in_memory
+  enable_authenticator_manager: true
+  # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+  # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+  providers:
+    users_in_memory:
+      memory:
+        users:
+          role_cartographer: { password: '$2y$13$ilbblQJ77K2l7dc97E5FPuOCo78YUPgufLhf/qXNigwglRJHEO0c2', roles: [ 'ROLE_CARTOGRAPHER' ] }
+          role_measurer: { password: '$2y$13$iOhKDnttexHfw.TYzjg.guR3GSrdnC3zcMM8qTFnkPNgFBRiWmuS.', roles: [ 'ROLE_MEASURER' ] }
+          admin: { password: '$2y$13$sT07/MJKfXhlyKMxCswyJej806nNFYUWf15yk2iL1HuG6SUz.Bg.m', roles: [ 'ROLE_CARTOGRAPHER', 'ROLE_MEASURER' ] }
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      lazy: true
+      provider: users_in_memory
+      http_basic:
+        realm: Secured Area
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#the-firewall
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
-    access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
+
+  role_hierarchy:
+    ROLE_CARTOGRAPHER:
+      - ROLE_LOCATION_INDEX
+      - ROLE_LOCATION_CREATE
+      - ROLE_LOCATION_SHOW
+      - ROLE_LOCATION_EDIT
+      - ROLE_LOCATION_DELETE
+    ROLE_MEASURER:
+      - ROLE_MEASUREMENT_INDEX
+      - ROLE_MEASUREMENT_CREATE
+      - ROLE_MEASUREMENT_SHOW
+      - ROLE_MEASUREMENT_EDIT
+      - ROLE_MEASUREMENT_DELETE
+
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    # - { path: ^/admin, roles: ROLE_ADMIN }
+    # - { path: ^/profile, roles: ROLE_USER }
+    - { path: '^/location', roles: [ ROLE_CARTOGRAPHER ] }
+    - { path: '^/measurement', roles: [ ROLE_MEASURER ] }
 
 when@test:
-    security:
-        password_hashers:
-            # By default, password hashers are resource intensive and take time. This is
-            # important to generate secure password hashes. In tests however, secure hashes
-            # are not important, waste resources and increase test times. The following
-            # reduces the work factor to the lowest possible values.
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+  security:
+    password_hashers:
+      # By default, password hashers are resource intensive and take time. This is
+      # important to generate secure password hashes. In tests however, secure hashes
+      # are not important, waste resources and increase test times. The following
+      # reduces the work factor to the lowest possible values.
+      Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+        algorithm: auto
+        cost: 4 # Lowest possible value for bcrypt
+        time_cost: 3 # Lowest possible value for argon
+        memory_cost: 10 # Lowest possible value for argon
