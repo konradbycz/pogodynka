@@ -21,3 +21,7 @@ app_measurement:
   resource: 'routes/app_measurement.yaml'
   prefix: 'measurement'
   name_prefix: 'app_measurement_'
+
+logout:
+  path: /logout
+  methods: GET

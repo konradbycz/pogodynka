@@ -5,12 +5,11 @@ security:
     Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
   # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
   providers:
-    users_in_memory:
-      memory:
-        users:
-          role_cartographer: { password: '$2y$13$ilbblQJ77K2l7dc97E5FPuOCo78YUPgufLhf/qXNigwglRJHEO0c2', roles: [ 'ROLE_CARTOGRAPHER' ] }
-          role_measurer: { password: '$2y$13$iOhKDnttexHfw.TYzjg.guR3GSrdnC3zcMM8qTFnkPNgFBRiWmuS.', roles: [ 'ROLE_MEASURER' ] }
-          admin: { password: '$2y$13$sT07/MJKfXhlyKMxCswyJej806nNFYUWf15yk2iL1HuG6SUz.Bg.m', roles: [ 'ROLE_CARTOGRAPHER', 'ROLE_MEASURER' ] }
+    # used to reload user from session & other features (e.g. switch_user)
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
 
   firewalls:
     dev:
@@ -18,9 +17,12 @@ security:
       security: false
     main:
       lazy: true
-      provider: users_in_memory
-      http_basic:
-        realm: Secured Area
+      provider: app_user_provider
+      form_login:
+        login_path: login
+        check_path: login
+      logout:
+        path: logout
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#the-firewall
@@ -47,8 +49,6 @@ security:
   access_control:
     # - { path: ^/admin, roles: ROLE_ADMIN }
     # - { path: ^/profile, roles: ROLE_USER }
-    - { path: '^/location', roles: [ ROLE_CARTOGRAPHER ] }
-    - { path: '^/measurement', roles: [ ROLE_MEASURER ] }
 
 when@test:
   security:

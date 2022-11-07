@@ -5,23 +5,24 @@ namespace App\Controller;
 use App\Entity\Location;
 use App\Form\LocationType;
 use App\Repository\LocationRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class LocationController extends AbstractController
 {
+    #[IsGranted('ROLE_LOCATION_INDEX')]
     public function index(LocationRepository $locationRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_LOCATION_INDEX');
         return $this->render('location/index.html.twig', [
             'locations' => $locationRepository->findAll(),
         ]);
     }
 
+    #[IsGranted('ROLE_LOCATION_CREATE')]
     public function new(Request $request, LocationRepository $locationRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_LOCATION_CREATE');
         $location = new Location();
         $form = $this->createForm(LocationType::class, $location, ['validation_groups' => ['new']]);
         $form->handleRequest($request);
@@ -38,17 +39,17 @@ class LocationController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_LOCATION_SHOW')]
     public function show(Location $location): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_LOCATION_SHOW');
         return $this->render('location/show.html.twig', [
             'location' => $location,
         ]);
     }
 
+    #[IsGranted('ROLE_LOCATION_EDIT')]
     public function edit(Request $request, Location $location, LocationRepository $locationRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_LOCATION_EDIT');
         $form = $this->createForm(LocationType::class, $location, ['validation_groups' => ['new']]);
         $form->handleRequest($request);
 
@@ -64,9 +65,9 @@ class LocationController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_LOCATION_DELETE')]
     public function delete(Request $request, Location $location, LocationRepository $locationRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_LOCATION_DELETE');
         if ($this->isCsrfTokenValid('delete' . $location->getId(), $request->request->get('_token'))) {
             $locationRepository->remove($location, true);
         }
