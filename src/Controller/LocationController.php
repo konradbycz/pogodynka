@@ -23,7 +23,7 @@ class LocationController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_LOCATION_CREATE');
         $location = new Location();
-        $form = $this->createForm(LocationType::class, $location);
+        $form = $this->createForm(LocationType::class, $location, ['validation_groups' => ['new']]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -49,7 +49,7 @@ class LocationController extends AbstractController
     public function edit(Request $request, Location $location, LocationRepository $locationRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_LOCATION_EDIT');
-        $form = $this->createForm(LocationType::class, $location);
+        $form = $this->createForm(LocationType::class, $location, ['validation_groups' => ['new']]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

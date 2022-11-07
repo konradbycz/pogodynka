@@ -4,18 +4,22 @@ App\Entity\Location:
       - Range:
           min: -90
           max: 90
+          groups: ['new', 'edit']
     longitude:
       - Range:
           min: -180
           max: 180
+          groups: [ 'new', 'edit' ]
     city:
       - Length:
           min: 2
           max: 50
+          groups: [ 'new', 'edit' ]
     country:
       - Length:
           min: 2
           max: 50
+          groups: [ 'new', 'edit' ]
 
 App\Entity\Measurement:
   properties:
@@ -23,3 +27,4 @@ App\Entity\Measurement:
       - Range:
           min: -100
           max: 100
+          groups: [ 'new', 'edit' ]

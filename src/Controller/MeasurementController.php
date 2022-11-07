@@ -24,7 +24,7 @@ class MeasurementController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_MEASUREMENT_CREATE');
         $measurement = new Measurement();
-        $form = $this->createForm(MeasurementType::class, $measurement);
+        $form = $this->createForm(MeasurementType::class, $measurement, ['validation_groups' => ['new']]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,7 +50,7 @@ class MeasurementController extends AbstractController
     public function edit(Request $request, Measurement $measurement, MeasurementRepository $measurementRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_MEASUREMENT_EDIT');
-        $form = $this->createForm(MeasurementType::class, $measurement);
+        $form = $this->createForm(MeasurementType::class, $measurement, ['validation_groups' => ['new']]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
