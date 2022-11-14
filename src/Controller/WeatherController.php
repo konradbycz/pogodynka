@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\WeatherService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,6 +29,15 @@ class WeatherController extends AbstractController
 
         return $this->render('weather/city.html.twig', [
             'location' => $location,
+            'measurements' => $measurements,
+        ]);
+    }
+
+    public function getWeatherForCountryAndCity(String $country, String $city, WeatherService $weatherService): Response
+    {
+        $measurements = $weatherService->getWeatherForCountryAndCity($country, $city);
+
+        return $this->render('weather/city.html.twig', [
             'measurements' => $measurements,
         ]);
     }

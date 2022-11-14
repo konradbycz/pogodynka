@@ -51,6 +51,16 @@ class LocationRepository extends ServiceEntityRepository
         return $result;
     }
 
+    public function findById(Int $locationId){
+        $qb = $this->createQueryBuilder('l');
+        $qb->where('l.id = :locationId')
+            ->setParameter('locationId', $locationId);
+
+        $query = $qb->getQuery();
+        $result = $query->getOneOrNullResult();
+        return $result;
+    }
+
 //    /**
 //     * @return Location[] Returns an array of Location objects
 //     */

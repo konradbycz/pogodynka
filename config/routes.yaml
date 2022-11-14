@@ -12,6 +12,10 @@ weather:
   path: /weather/{country}/{city}
   controller: App\Controller\WeatherController:measurementAction
 
+weather_service_cc:
+  path: /weather/service/{country}/{city}
+  controller: App\Controller\WeatherController:getWeatherForCountryAndCity
+
 app_location:
   resource: 'routes/app_location.yaml'
   prefix: 'location'

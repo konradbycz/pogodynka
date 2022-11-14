@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Weather in {{ location.city }}, {{ location.country }}{% endblock %}
+{% block title %}{% if location is defined %}Weather in {{ location.city }}, {{ location.country }}{% endif %}{% endblock %}
 
 {% block body %}
 <style>
@@ -9,7 +9,9 @@
 </style>
 
 <div class="example-wrapper">
+    {% if location is defined %}
     <h1>{{ location.city }}, {{ location.country }}</h1>
+    {% endif %}
 
     <ul>
         {% for measurement in measurements %}
